@@ -1,0 +1,26 @@
+<% content_for :title, "#{@user.name} – Expense Tracker" %>
+
+<div class="card-header" style="margin-bottom: 1rem;">
+  <h1 class="page-title" style="margin: 0;">Friend's expenses – <%= @user.name %></h1>
+  <%= link_to "Back to Friends", users_path, class: "btn btn-secondary" %>
+</div>
+
+<p>All expenses paid by <strong><%= @user.name %></strong>.</p>
+
+<% if @expenses.any? %>
+  <ul class="expense-list">
+    <% @expenses.each do |expense| %>
+      <li>
+        <div>
+          <span class="expense-amount"><%= number_to_currency(expense.total_cents / 100.0, unit: "₹", format: "%u%n") %></span>
+          <span class="expense-meta"> · <%= expense.created_at.strftime("%b %d, %Y") %></span>
+        </div>
+        <%= link_to "View", expense_path(expense), class: "btn btn-secondary" %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <div class="card">
+    <p class="empty-state"><%= @user.name %> has not paid for any expenses yet.</p>
+  </div>
+<% end %>

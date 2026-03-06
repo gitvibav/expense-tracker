@@ -1,0 +1,32 @@
+<% content_for :title, "Friends – Expense Tracker" %>
+
+<h1 class="page-title">Friends</h1>
+
+<p>Add friends and view their expenses.</p>
+
+<%= form_with model: User.new, url: users_path, class: "add-user-form" do |f| %>
+  <%= f.text_field :name, placeholder: "Friend's name", class: "form-input", required: true %>
+  <%= f.email_field :email, placeholder: "friend@example.com", class: "form-input", required: true %>
+  <%= f.submit "Add friend", class: "btn btn-primary" %>
+<% end %>
+
+<div class="card">
+  <h2 class="section-title">All users</h2>
+  <% if @users.any? %>
+    <ul class="user-list">
+      <% @users.each do |user| %>
+        <li>
+          <span class="user-name"><%= user.name %></span>
+          <span>
+            <%= link_to "View expenses", user_path(user), class: "btn btn-secondary" %>
+          </span>
+        </li>
+      <% end %>
+    </ul>
+    <p class="expense-meta" style="margin-top: 1rem;">
+      Total amount in all expenses: <%= number_to_currency(@total_spent_cents / 100.0, unit: "₹", format: "%u%n") %>
+    </p>
+  <% else %>
+    <p class="empty-state">No users yet. Add a friend above to get started.</p>
+  <% end %>
+</div>

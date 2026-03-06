@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+john:
+  name: John
+  email: john@example.com
+  password_digest: $2a$12$QthvMzZo7P0T2.q0zzenGeV1Dvl/cQnr1Wz2MdurCjY1WgpqG3VlW
+
+anbu:
+  name: anbu
+  email: anbu@example.com
+  password_digest: $2a$12$QthvMzZo7P0T2.q0zzenGeV1Dvl/cQnr1Wz2MdurCjY1WgpqG3VlW
+
+michael_victor:
+  name: Michael Victor
+  email: michael.victor@example.com
+  password_digest: $2a$12$QthvMzZo7P0T2.q0zzenGeV1Dvl/cQnr1Wz2MdurCjY1WgpqG3VlW
+
+rob:
+  name: Rob
+  email: rob@example.com
+  password_digest: $2a$12$QthvMzZo7P0T2.q0zzenGeV1Dvl/cQnr1Wz2MdurCjY1WgpqG3VlW

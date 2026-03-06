@@ -1,0 +1,22 @@
+<nav class="nav">
+  <div class="nav-brand">
+    <%= link_to "Expense Tracker", root_path, class: "nav-logo" %>
+  </div>
+  <ul class="nav-links">
+    <li><%= link_to "Dashboard", dashboard_path %></li>
+    <li><%= link_to "Share expense", share_expense_path %></li>
+    <li><%= link_to "Friends", users_path %></li>
+    <% if current_user %>
+      <li class="nav-user">
+        <span class="nav-user-label">You:</span>
+        <span class="nav-user-name"><%= current_user.name %></span>
+      </li>
+      <li>
+        <%= button_to "Sign out", session_path, method: :delete, class: "btn btn-secondary" %>
+      </li>
+    <% else %>
+      <li><%= link_to "Sign in", new_session_path %></li>
+      <li><%= link_to "Sign up", sign_up_path %></li>
+    <% end %>
+  </ul>
+</nav>

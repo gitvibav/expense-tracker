@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  expense: one
+  from_user: anbu
+  to_user: john
+  amount_cents: 1
+
+two:
+  expense: two
+  from_user: john
+  to_user: anbu
+  amount_cents: 1

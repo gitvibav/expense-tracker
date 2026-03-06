@@ -1,0 +1,90 @@
+<% content_for :title, "Share expense – Expense Tracker" %>
+
+<h1 class="page-title">Itemized expense</h1>
+
+<%= form_with model: @expense, url: expenses_path, class: "expense-form", data: { controller: "expense-form" } do |f| %>
+  <% if @expense.errors.any? %>
+    <div class="flash flash-alert">
+      <ul>
+        <% @expense.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :tax_percent, "Tax %", class: "form-label" %>
+    <%= f.number_field :tax_percent, value: @expense.tax_percent, step: 0.1, min: 0, class: "form-input tax-tip-row", style: "width: 80px;" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :tip_percent, "Tip %", class: "form-label" %>
+    <%= f.number_field :tip_percent, value: @expense.tip_percent, step: 0.1, min: 0, class: "form-input tax-tip-row", style: "width: 80px;" %>
+  </div>
+
+  <table class="itemized-table">
+    <thead>
+      <tr>
+        <th class="col-desc">Description</th>
+        <th class="col-amount">Amount (₹)</th>
+        <% @users.each do |u| %>
+          <th class="col-share"><%= u.name %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @expense.expense_items.each_with_index do |item, item_idx| %>
+        <%= f.fields_for :expense_items, item, child_index: item_idx do |item_f| %>
+          <%= item_f.hidden_field :id if item.persisted? %>
+          <tr>
+            <td class="col-desc"><%= item_f.text_field :description, placeholder: "Description", class: "form-input" %></td>
+            <td class="col-amount">
+              <%= item_f.number_field :amount_rupees, value: item.amount_rupees, step: 0.01, min: 0, placeholder: "0.00", style: "width: 90px;" %>
+            </td>
+            <% @users.each_with_index do |u, share_idx| %>
+              <% share = item.expense_item_shares.find { |s| s.user_id == u.id } %>
+              <% next unless share %>
+              <%= item_f.fields_for :expense_item_shares, share, child_index: share_idx do |share_f| %>
+                <%= share_f.hidden_field :user_id %>
+                <%= share_f.hidden_field :id if share.persisted? %>
+                <td class="col-share">
+                  <%= share_f.number_field :amount_rupees, value: share.amount_rupees, step: 0.01, min: 0, placeholder: "0.00", style: "width: 80px;" %>
+                </td>
+              <% end %>
+            <% end %>
+          </tr>
+        <% end %>
+      <% end %>
+      <tr class="add-item-row">
+        <td colspan="<%= 2 + @users.size %>">
+          <%= link_to "Add another item", share_expense_path(items: @expense.expense_items.size + 1), class: "btn btn-secondary" %>
+        </td>
+      </tr>
+      <tr class="summary-row" data-expense-form-target="summaryRow">
+        <td><strong>Subtotal</strong></td>
+        <td data-expense-form-target="subtotal">0.00</td>
+        <% @users.each do %><td></td><% end %>
+      </tr>
+      <tr class="summary-row">
+        <td><strong>+ Tax</strong></td>
+        <td data-expense-form-target="taxDisplay">0.00</td>
+        <% @users.each do %><td></td><% end %>
+      </tr>
+      <tr class="summary-row">
+        <td><strong>+ Tip</strong></td>
+        <td data-expense-form-target="tipDisplay">0.00</td>
+        <% @users.each do %><td></td><% end %>
+      </tr>
+      <tr class="summary-row grand-total">
+        <td><strong>Grand total</strong></td>
+        <td data-expense-form-target="grandTotal">0.00</td>
+        <% @users.each do %><td></td><% end %>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="expense-form-actions">
+    <%= f.submit "Done", class: "btn btn-primary" %>
+    <%= link_to "Cancel", dashboard_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>

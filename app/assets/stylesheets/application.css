@@ -1,0 +1,456 @@
+/*
+ * Expense Tracker – layout and components
+ */
+
+:root {
+  --bg: #f5f5f5;
+  --surface: #fff;
+  --text: #1a1a1a;
+  --text-muted: #666;
+  --accent: #22c55e;
+  --accent-hover: #16a34a;
+  --danger: #dc2626;
+  --border: #e5e7eb;
+  --radius: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08);
+  --font: "DM Sans", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+.main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+/* Nav */
+.nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.nav-brand {
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+.nav-logo {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav-logo:hover {
+  color: var(--accent);
+}
+
+.nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-links a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+}
+
+.nav-user {
+  padding-left: 1rem;
+  border-left: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.nav-user-label {
+  color: var(--text-muted);
+  margin-right: 0.25rem;
+}
+
+.nav-user-name {
+  font-weight: 600;
+}
+
+/* Flash */
+.flash {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+}
+
+.flash-notice {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.flash-alert {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Headings */
+.page-title {
+  margin: 0 0 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.75rem;
+}
+
+.section-title:first-child {
+  margin-top: 0;
+}
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Balance summary */
+.balance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.balance-item {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.balance-item .label {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.balance-item .value {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.balance-item .value.positive {
+  color: #16a34a;
+}
+
+.balance-item .value.negative {
+  color: var(--danger);
+}
+
+/* Lists */
+.owe-list, .due-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.owe-list li, .due-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.owe-list li:last-child, .due-list li:last-child {
+  border-bottom: none;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  font-family: inherit;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+.btn-secondary {
+  background: var(--border);
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  background: #d1d5db;
+}
+
+.btn-danger {
+  background: #fef2f2;
+  color: var(--danger);
+}
+
+.btn-danger:hover {
+  background: #fee2e2;
+}
+
+/* Forms */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  font-family: inherit;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+}
+
+/* Expense form – itemized table */
+.expense-form .itemized-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.expense-form .itemized-table th,
+.expense-form .itemized-table td {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.expense-form .itemized-table th {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.expense-form .itemized-table input[type="text"],
+.expense-form .itemized-table input[type="number"] {
+  width: 100%;
+  min-width: 60px;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.9375rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.expense-form .itemized-table input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.expense-form .itemized-table .col-desc {
+  min-width: 140px;
+}
+
+.expense-form .itemized-table .col-amount {
+  width: 100px;
+}
+
+.expense-form .itemized-table .col-share {
+  width: 90px;
+  text-align: right;
+}
+
+.expense-form .itemized-table .currency {
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.expense-form .summary-row {
+  font-weight: 600;
+  background: #f9fafb;
+}
+
+.expense-form .summary-row td {
+  padding: 0.75rem;
+}
+
+.expense-form .grand-total td {
+  font-size: 1.125rem;
+  padding: 1rem 0.75rem;
+}
+
+.expense-form .add-item-row td {
+  padding: 0.75rem;
+  border-bottom: none;
+}
+
+.expense-form-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.expense-form-actions .btn {
+  padding: 0.625rem 1.25rem;
+}
+
+/* Tax/Tip row */
+.tax-tip-row input {
+  width: 70px;
+  text-align: right;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-muted);
+}
+
+.empty-state p {
+  margin: 0 0 1rem;
+}
+
+/* Expense list */
+.expense-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.expense-list li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.expense-list li:last-child {
+  border-bottom: none;
+}
+
+.expense-list .expense-meta {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.expense-list .expense-amount {
+  font-weight: 600;
+}
+
+/* User list (friends) */
+.user-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.user-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.user-list li:last-child {
+  border-bottom: none;
+}
+
+.user-list .user-name {
+  font-weight: 500;
+}
+
+.user-list form {
+  display: inline;
+}
+
+/* Add user form */
+.add-user-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.add-user-form .form-input {
+  flex: 1;
+  min-width: 160px;
+}
+
+/* Select user (who are you) */
+.select-user-form {
+  margin-bottom: 1rem;
+}
+
+.select-user-form select {
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-right: 0.5rem;
+}
+
+.select-user-form .btn {
+  padding: 0.5rem 1rem;
+}
