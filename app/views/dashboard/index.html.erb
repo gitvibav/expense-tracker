@@ -1,17 +1,5 @@
 <% content_for :title, "Dashboard – Expense Tracker" %>
 
-<% if current_user.nil? %>
-  <div class="card">
-    <h1 class="page-title">Welcome to Expense Tracker</h1>
-    <p>Sign in to view your dashboard, or create an account to get started.</p>
-    <div class="expense-form-actions">
-      <%= link_to "Sign in", new_session_path, class: "btn btn-primary" %>
-      <%= link_to "Sign up", sign_up_path, class: "btn btn-secondary" %>
-    </div>
-  </div>
-  <% return %>
-<% end %>
-
 <h1 class="page-title">Dashboard – My expenses</h1>
 
 <div class="balance-grid">
