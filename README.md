@@ -25,15 +25,27 @@ Track shared expenses with friends using an itemized bill flow (similar to Split
 ### Tech
 
 - Ruby / Rails (Rails 8)
-- SQLite (development + test)
+- PostgreSQL (development + test + production)
 - Hotwire (Turbo + Stimulus)
+- Solid Cache, Solid Queue, Solid Cable (for production)
 
 ### Setup
+
+**Prerequisites:**
+- PostgreSQL (installed and running)
 
 Install gems:
 
 ```bash
 bundle install
+```
+
+Set up database configuration (optional - defaults are provided):
+```bash
+export DATABASE_USERNAME=your_username
+export DATABASE_PASSWORD=your_password
+export DATABASE_HOST=localhost
+export DATABASE_PORT=5432
 ```
 
 Create the database and seed sample users:
