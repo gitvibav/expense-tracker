@@ -19,7 +19,7 @@ Track shared expenses with friends using an itemized bill flow (similar to Split
   - Lists of who you owe and who owes you (after accounting for payments)
   - List of your expenses
   - "Settle Up" button when you owe money to friends
-- **See a friend’s expenses** (expenses they paid)
+- **See a friend's expenses** (expenses they paid)
 
 ### Pages
 
@@ -97,9 +97,17 @@ bin/rails test
 
 ### Notes on calculations
 
-- Money is stored as integer **cents** (`amount_cents`).
-- Form inputs accept ₹ values (decimals) and convert to cents.
-- **Tax** and **tip** are computed from the subtotal, rounded to cents.
-- Tax + tip cents are split equally among participants; any remainder cents are distributed deterministically.
-- **Payments** are recorded in rupees but stored as cents for consistency.
+- Money is stored as integer **paise** (`amount_paise`) for Indian currency.
+- Form inputs accept ₹ values (decimals) and convert to paise.
+- **Tax** and **tip** are computed from the subtotal, rounded to paise.
+- Tax + tip paise are split equally among participants; any remainder paise are distributed deterministically.
+- **Payments** are recorded in rupees but stored as paise for consistency.
 - Balances automatically account for both expense splits and payments made/received.
+
+### Currency System
+
+This application uses Indian currency (₹) throughout:
+- **Storage**: All monetary values are stored as paise (1/100 of a rupee) in the database
+- **Input**: Users enter amounts in rupees with decimal format (e.g., 28.17)
+- **Display**: All amounts are displayed with ₹ symbol and proper formatting
+- **Calculations**: All internal calculations work with paise to avoid floating-point precision issues

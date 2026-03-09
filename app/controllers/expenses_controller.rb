@@ -38,15 +38,15 @@ class ExpensesController < ApplicationController
     params.require(:expense).permit(
       :tax_percent, :tip_percent, :description,
       expense_items_attributes: [
-        :id, :description, :amount_cents, :amount_rupees, :_destroy,
-        { expense_item_shares_attributes: %i[id user_id amount_cents amount_rupees _destroy] }
+        :id, :description, :amount_paise, :amount_rupees, :_destroy,
+        { expense_item_shares_attributes: %i[id user_id amount_paise amount_rupees _destroy] }
       ]
     )
   end
 
   def build_item_with_shares
     item = @expense.expense_items.build
-    @users.each { |u| item.expense_item_shares.build(user: u, amount_cents: 0) }
+    @users.each { |u| item.expense_item_shares.build(user: u, amount_paise: 0) }
   end
 
   def filter_blank_items!(params_hash)
@@ -59,7 +59,7 @@ class ExpensesController < ApplicationController
       attrs = attrs.to_unsafe_h if attrs.respond_to?(:to_unsafe_h)
       attrs = attrs.stringify_keys if attrs.respond_to?(:stringify_keys)
       desc = (attrs["description"] || attrs[:description]).to_s.strip
-      amt = (attrs["amount_cents"] || attrs[:amount_cents]).to_s.to_i
+      amt = (attrs["amount_paise"] || attrs[:amount_paise]).to_s.to_i
       amt_rupees = (attrs["amount_rupees"] || attrs[:amount_rupees]).to_s.strip
       next if desc.blank? || (amt.zero? && amt_rupees.blank?)
       # Normalize expense_item_shares_attributes if submitted without index

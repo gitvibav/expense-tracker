@@ -5,8 +5,8 @@ class UsersController < ApplicationController
 
   def index
     @users = User.ordered_by_name
-    @total_spent_cents = Expense.includes(:expense_items).sum do |e|
-      sub = e.expense_items.sum(:amount_cents)
+    @total_spent_paise = Expense.includes(:expense_items).sum do |e|
+      sub = e.expense_items.sum(:amount_paise)
       sub + (sub * (e.tax_percent.to_d + e.tip_percent.to_d) / 100).round
     end
   end
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
         redirect_to users_path, notice: "Friend added. Temporary password for #{@user.email}: #{tmp_password}"
       else
         @users = User.ordered_by_name
-        @total_spent_cents = Expense.includes(:expense_items).sum { |e| sub = e.expense_items.sum(:amount_cents); sub + (sub * (e.tax_percent.to_d + e.tip_percent.to_d) / 100).round }
+        @total_spent_paise = Expense.includes(:expense_items).sum { |e| sub = e.expense_items.sum(:amount_paise); sub + (sub * (e.tax_percent.to_d + e.tip_percent.to_d) / 100).round }
         render :index, status: :unprocessable_entity
       end
       return

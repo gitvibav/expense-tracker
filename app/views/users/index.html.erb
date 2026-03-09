@@ -24,7 +24,7 @@
       <% end %>
     </ul>
     <p class="expense-meta" style="margin-top: 1rem;">
-      Total amount in all expenses: <%= number_to_currency(@total_spent_cents / 100.0, unit: "₹", format: "%u%n") %>
+      Total amount in all expenses: <%= number_to_currency(@total_spent_paise / 100.0, unit: "₹", format: "%u%n") %>
     </p>
   <% else %>
     <p class="empty-state">No users yet. Add a friend above to get started.</p>

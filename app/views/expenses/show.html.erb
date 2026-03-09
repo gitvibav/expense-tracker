@@ -7,10 +7,10 @@
   </div>
   <p><strong>Paid by:</strong> <%= @expense.payer.name %></p>
   <p><strong>Date:</strong> <%= @expense.created_at.strftime("%b %d, %Y at %l:%M %p") %></p>
-  <p><strong>Subtotal:</strong> <%= number_to_currency(@expense.subtotal_cents / 100.0, unit: "₹", format: "%u%n") %></p>
-  <p><strong>Tax (<%= @expense.tax_percent %>%):</strong> <%= number_to_currency(@expense.tax_cents / 100.0, unit: "₹", format: "%u%n") %></p>
-  <p><strong>Tip (<%= @expense.tip_percent %>%):</strong> <%= number_to_currency(@expense.tip_cents / 100.0, unit: "₹", format: "%u%n") %></p>
-  <p><strong>Grand total:</strong> <%= number_to_currency(@expense.total_cents / 100.0, unit: "₹", format: "%u%n") %></p>
+  <p><strong>Subtotal:</strong> <%= number_to_currency(@expense.subtotal_paise / 100.0, unit: "₹", format: "%u%n") %></p>
+  <p><strong>Tax (<%= @expense.tax_percent %>%):</strong> <%= number_to_currency(@expense.tax_paise / 100.0, unit: "₹", format: "%u%n") %></p>
+  <p><strong>Tip (<%= @expense.tip_percent %>%):</strong> <%= number_to_currency(@expense.tip_paise / 100.0, unit: "₹", format: "%u%n") %></p>
+  <p><strong>Grand total:</strong> <%= number_to_currency(@expense.total_paise / 100.0, unit: "₹", format: "%u%n") %></p>
 
   <h2 class="section-title">Items</h2>
   <table class="itemized-table">
@@ -24,7 +24,7 @@
       <% @expense.expense_items.each do |item| %>
         <tr>
           <td><%= item.description %></td>
-          <td><%= number_to_currency(item.amount_cents / 100.0, unit: "₹", format: "%u%n") %></td>
+          <td><%= number_to_currency(item.amount_paise / 100.0, unit: "₹", format: "%u%n") %></td>
         </tr>
       <% end %>
     </tbody>

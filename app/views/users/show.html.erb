@@ -12,7 +12,7 @@
     <% @expenses.each do |expense| %>
       <li>
         <div>
-          <span class="expense-amount"><%= number_to_currency(expense.total_cents / 100.0, unit: "₹", format: "%u%n") %></span>
+          <span class="expense-amount"><%= number_to_currency(expense.total_paise / 100.0, unit: "₹", format: "%u%n") %></span>
           <span class="expense-meta"> · <%= expense.created_at.strftime("%b %d, %Y") %></span>
         </div>
         <%= link_to "View", expense_path(expense), class: "btn btn-secondary" %>

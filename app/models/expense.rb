@@ -18,28 +18,28 @@ class Expense < ApplicationRecord
     self[:tip_percent].presence || 0
   end
 
-  def subtotal_cents
+  def subtotal_paise
     # When building an expense (before persisting), sums must include in-memory items.
-    return expense_items.sum { |i| i.amount_cents.to_i } if new_record? || expense_items.loaded?
+    return expense_items.sum { |i| i.amount_paise.to_i } if new_record? || expense_items.loaded?
 
-    expense_items.sum(:amount_cents)
+    expense_items.sum(:amount_paise)
   end
 
-  def tax_cents
-    (subtotal_cents * (tax_percent.to_d / 100)).round
+  def tax_paise
+    (subtotal_paise * (tax_percent.to_d / 100)).round
   end
 
-  def tip_cents
-    (subtotal_cents * (tip_percent.to_d / 100)).round
+  def tip_paise
+    (subtotal_paise * (tip_percent.to_d / 100)).round
   end
 
-  def total_cents
-    subtotal_cents + tax_cents + tip_cents
+  def total_paise
+    subtotal_paise + tax_paise + tip_paise
   end
 
   def participant_ids
     expense_items.flat_map do |item|
-      item.expense_item_shares.select { |s| s.amount_cents.to_i.positive? }.map(&:user_id)
+      item.expense_item_shares.select { |s| s.amount_paise.to_i.positive? }.map(&:user_id)
     end.uniq
   end
 
@@ -53,7 +53,7 @@ class Expense < ApplicationRecord
     participant_totals = Hash.new(0)
     expense_items.each do |item|
       item.expense_item_shares.each do |share|
-        amt = share.amount_cents.to_i
+        amt = share.amount_paise.to_i
         participant_totals[share.user_id] += amt if amt.positive?
       end
     end
@@ -61,18 +61,18 @@ class Expense < ApplicationRecord
     return if participant_ids.empty?
 
     n = participant_ids.size
-    extras_total = tax_cents + tip_cents
+    extras_total = tax_paise + tip_paise
     base_extra = (extras_total / n)
     remainder = (extras_total % n)
 
     expense_splits.destroy_all
     participant_ids.each_with_index do |user_id, idx|
       next if user_id == payer_id
-      # Distribute remainder deterministically so we don't "lose" cents.
+      # Distribute remainder deterministically so we don't "lose" paise.
       extra = base_extra + (idx < remainder ? 1 : 0)
       total_owe = (participant_totals[user_id] || 0) + extra
       next if total_owe <= 0
-      expense_splits.create!(from_user_id: user_id, to_user_id: payer_id, amount_cents: total_owe)
+      expense_splits.create!(from_user_id: user_id, to_user_id: payer_id, amount_paise: total_owe)
     end
   end
 end

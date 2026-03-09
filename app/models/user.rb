@@ -25,31 +25,31 @@ class User < ApplicationRecord
   end
 
   # Total amount this user owes to others (sum of splits where from_user = self) minus payments made
-  def total_owed_cents
-    expense_splits_as_debtor.sum(:amount_cents) - payments_made.sum(:amount_cents)
+  def total_owed_paise
+    expense_splits_as_debtor.sum(:amount_paise) - payments_made.sum(:amount_paise)
   end
 
   # Total amount others owe this user (sum of splits where to_user = self) minus payments received
-  def total_due_to_me_cents
-    expense_splits_as_creditor.sum(:amount_cents) - payments_received.sum(:amount_cents)
+  def total_due_to_me_paise
+    expense_splits_as_creditor.sum(:amount_paise) - payments_received.sum(:amount_paise)
   end
 
   # Balance: positive = others owe you, negative = you owe others
-  def balance_cents
-    total_due_to_me_cents - total_owed_cents
+  def balance_paise
+    total_due_to_me_paise - total_owed_paise
   end
 
-  # Who owes this user and how much (user => amount_cents) after accounting for payments
+  # Who owes this user and how much (user => amount_paise) after accounting for payments
   def who_owes_me
     debt_owed = expense_splits_as_creditor
       .joins(:from_user)
       .group("users.id")
-      .sum(:amount_cents)
+      .sum(:amount_paise)
 
     payments_received_by_user = payments_received
       .joins(:from_user)
       .group("users.id")
-      .sum(:amount_cents)
+      .sum(:amount_paise)
 
     result = {}
     (debt_owed.keys + payments_received_by_user.keys).uniq.each do |user_id|
@@ -62,17 +62,17 @@ class User < ApplicationRecord
     result.transform_keys { |user_id| User.find(user_id) }
   end
 
-  # Who this user owes and how much (user => amount_cents) after accounting for payments
+  # Who this user owes and how much (user => amount_paise) after accounting for payments
   def who_i_owe
     debt_owing = expense_splits_as_debtor
       .joins(:to_user)
       .group("users.id")
-      .sum(:amount_cents)
+      .sum(:amount_paise)
 
     payments_made_to_user = payments_made
       .joins(:to_user)
       .group("users.id")
-      .sum(:amount_cents)
+      .sum(:amount_paise)
 
     result = {}
     (debt_owing.keys + payments_made_to_user.keys).uniq.each do |user_id|

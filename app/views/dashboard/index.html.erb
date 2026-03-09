@@ -5,18 +5,18 @@
 <div class="balance-grid">
   <div class="balance-item">
     <div class="label">Total balance</div>
-    <div class="value <%= @total_balance_cents >= 0 ? 'positive' : 'negative' %>">
-      <%= number_to_currency(@total_balance_cents / 100.0, unit: "₹", format: "%u%n") %>
+    <div class="value <%= @total_balance_paise >= 0 ? 'positive' : 'negative' %>">
+      <%= number_to_currency(@total_balance_paise / 100.0, unit: "₹", format: "%u%n") %>
     </div>
-    <small><%= @total_balance_cents >= 0 ? "You are owed" : "You owe" %></small>
+    <small><%= @total_balance_paise >= 0 ? "You are owed" : "You owe" %></small>
   </div>
   <div class="balance-item">
     <div class="label">Total you owe</div>
-    <div class="value"><%= number_to_currency(@total_owed_cents / 100.0, unit: "₹", format: "%u%n") %></div>
+    <div class="value"><%= number_to_currency(@total_owed_paise / 100.0, unit: "₹", format: "%u%n") %></div>
   </div>
   <div class="balance-item">
     <div class="label">Total due to you</div>
-    <div class="value positive"><%= number_to_currency(@total_due_to_me_cents / 100.0, unit: "₹", format: "%u%n") %></div>
+    <div class="value positive"><%= number_to_currency(@total_due_to_me_paise / 100.0, unit: "₹", format: "%u%n") %></div>
   </div>
 </div>
 
@@ -24,10 +24,10 @@
   <h2 class="section-title">You owe</h2>
   <% if @who_i_owe.present? %>
     <ul class="owe-list">
-      <% @who_i_owe.each do |user, cents| %>
+      <% @who_i_owe.each do |user, paise| %>
         <li>
           <span><%= user.name %></span>
-          <span><%= number_to_currency(cents / 100.0, unit: "₹", format: "%u%n") %></span>
+          <span><%= number_to_currency(paise / 100.0, unit: "₹", format: "%u%n") %></span>
         </li>
       <% end %>
     </ul>
@@ -43,10 +43,10 @@
   <h2 class="section-title">Due to you</h2>
   <% if @who_owes_me.present? %>
     <ul class="due-list">
-      <% @who_owes_me.each do |user, cents| %>
+      <% @who_owes_me.each do |user, paise| %>
         <li>
           <span><%= user.name %></span>
-          <span><%= number_to_currency(cents / 100.0, unit: "₹", format: "%u%n") %></span>
+          <span><%= number_to_currency(paise / 100.0, unit: "₹", format: "%u%n") %></span>
         </li>
       <% end %>
     </ul>
@@ -62,7 +62,7 @@
       <% @expenses.each do |expense| %>
         <li>
           <div>
-            <span class="expense-amount"><%= number_to_currency(expense.total_cents / 100.0, unit: "₹", format: "%u%n") %></span>
+            <span class="expense-amount"><%= number_to_currency(expense.total_paise / 100.0, unit: "₹", format: "%u%n") %></span>
             <span class="expense-meta"> – paid by <%= expense.payer.name %> · <%= expense.created_at.strftime("%b %d, %Y") %></span>
           </div>
           <%= link_to "View", expense_path(expense), class: "btn btn-secondary" %>

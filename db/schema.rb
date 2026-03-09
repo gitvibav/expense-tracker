@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_09_061707) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_09_063530) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "expense_item_shares", force: :cascade do |t|
-    t.integer "amount_cents"
+    t.integer "amount_paise"
     t.datetime "created_at", null: false
     t.integer "expense_item_id", null: false
     t.datetime "updated_at", null: false
@@ -25,7 +25,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_09_061707) do
   end
 
   create_table "expense_items", force: :cascade do |t|
-    t.integer "amount_cents"
+    t.integer "amount_paise"
     t.datetime "created_at", null: false
     t.string "description"
     t.integer "expense_id", null: false
@@ -34,7 +34,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_09_061707) do
   end
 
   create_table "expense_splits", force: :cascade do |t|
-    t.integer "amount_cents"
+    t.integer "amount_paise"
     t.datetime "created_at", null: false
     t.integer "expense_id", null: false
     t.integer "from_user_id", null: false
@@ -56,7 +56,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_09_061707) do
   end
 
   create_table "payments", force: :cascade do |t|
-    t.integer "amount_cents", null: false
+    t.integer "amount_paise", null: false
     t.datetime "created_at", null: false
     t.bigint "from_user_id", null: false
     t.text "notes"

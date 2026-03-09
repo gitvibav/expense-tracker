@@ -2,16 +2,16 @@ class Payment < ApplicationRecord
   belongs_to :from_user, class_name: "User"
   belongs_to :to_user, class_name: "User"
 
-  validates :amount_cents, presence: true, numericality: { greater_than: 0 }
+  validates :amount_paise, presence: true, numericality: { greater_than: 0 }
   validate :cannot_pay_self
 
   def amount
-    return 0.0 if amount_cents.nil?
-    amount_cents / 100.0
+    return 0.0 if amount_paise.nil?
+    amount_paise / 100.0
   end
 
-  def amount=(dollars)
-    self.amount_cents = (dollars.to_f * 100).round
+  def amount=(rupees)
+    self.amount_paise = (rupees.to_f * 100).round
   end
 
   private
