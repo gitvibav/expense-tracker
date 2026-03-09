@@ -9,16 +9,23 @@ Track shared expenses with friends using an itemized bill flow (similar to Split
   - Add one or more items
   - Assign each item to one person or split it across multiple people
   - Add **tax %** and **tip %** (applied to subtotal and split equally among participants)
+- **Settle up payments**
+  - Record payments made to friends you owe
+  - Enter amount in rupees (e.g., 28.17 for ₹28.17)
+  - Add optional notes about the payment
+  - Payments automatically update balances for both users
 - **See your dashboard**
   - **Total balance** = (total due to you) − (total you owe)
-  - Lists of who you owe and who owes you
+  - Lists of who you owe and who owes you (after accounting for payments)
   - List of your expenses
+  - "Settle Up" button when you owe money to friends
 - **See a friend’s expenses** (expenses they paid)
 
 ### Pages
 
 - **Dashboard**: `/` or `/dashboard`
 - **Share expense**: `/share`
+- **Settle up**: `/payments/new`
 - **Friends**: `/users`
 - **Friend detail**: `/users/:id`
 
@@ -68,6 +75,11 @@ bin/rails server
 4. Enter item amount and make sure the **sum of shares equals the item amount**
 5. Click **Done**
 6. View **Dashboard** (`/dashboard`) for balances and your expenses
+7. When you owe money, click **"Settle Up"** to record payments to friends
+   - Select who you're paying from the dropdown (shows amount owed)
+   - Enter payment amount in rupees
+   - Add optional notes
+   - Click **"Record Payment"** to update both users' balances
 
 ### Default seeded accounts (development)
 
@@ -89,3 +101,5 @@ bin/rails test
 - Form inputs accept ₹ values (decimals) and convert to cents.
 - **Tax** and **tip** are computed from the subtotal, rounded to cents.
 - Tax + tip cents are split equally among participants; any remainder cents are distributed deterministically.
+- **Payments** are recorded in rupees but stored as cents for consistency.
+- Balances automatically account for both expense splits and payments made/received.
