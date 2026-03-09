@@ -31,6 +31,9 @@
         </li>
       <% end %>
     </ul>
+    <div class="mt-4">
+      <%= link_to "Settle Up", new_payment_path, class: "btn btn-primary" %>
+    </div>
   <% else %>
     <p class="empty-state">You don't owe anyone.</p>
   <% end %>

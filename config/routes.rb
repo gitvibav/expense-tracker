@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get "share", to: "expenses#new", as: :share_expense
   resources :expenses, only: %i[create show]
 
+  resources :payments, only: %i[new create]
+
   get "dashboard", to: "dashboard#index", as: :dashboard
 
   resources :users, only: %i[index new create show]

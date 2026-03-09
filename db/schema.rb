@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_06_060429) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_09_061707) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -55,6 +55,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_06_060429) do
     t.index ["payer_id"], name: "index_expenses_on_payer_id"
   end
 
+  create_table "payments", force: :cascade do |t|
+    t.integer "amount_cents", null: false
+    t.datetime "created_at", null: false
+    t.bigint "from_user_id", null: false
+    t.text "notes"
+    t.bigint "to_user_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["from_user_id"], name: "index_payments_on_from_user_id"
+    t.index ["to_user_id"], name: "index_payments_on_to_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", null: false
@@ -71,4 +82,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_06_060429) do
   add_foreign_key "expense_splits", "users", column: "from_user_id"
   add_foreign_key "expense_splits", "users", column: "to_user_id"
   add_foreign_key "expenses", "users", column: "payer_id"
+  add_foreign_key "payments", "users", column: "from_user_id"
+  add_foreign_key "payments", "users", column: "to_user_id"
 end
