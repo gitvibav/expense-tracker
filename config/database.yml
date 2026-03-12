@@ -34,6 +34,7 @@ test:
 production:
   primary:
     <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
     database: expense_code_production
     username: <%= ENV.fetch("DATABASE_USERNAME") { "vibavmahendran" } %>
     password: <%= ENV.fetch("DATABASE_PASSWORD") { "" } %>
