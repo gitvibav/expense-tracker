@@ -8,6 +8,11 @@ class User < ApplicationRecord
   has_many :payments_made, class_name: "Payment", foreign_key: :from_user_id, inverse_of: :from_user, dependent: :destroy
   has_many :payments_received, class_name: "Payment", foreign_key: :to_user_id, inverse_of: :to_user, dependent: :destroy
 
+  has_many :friendships, dependent: :destroy
+  has_many :friends, through: :friendships, source: :friend
+  has_many :inverse_friendships, class_name: "Friendship", foreign_key: :friend_id, dependent: :destroy
+  has_many :inverse_friends, through: :inverse_friendships, source: :user
+
   has_secure_password
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
@@ -18,9 +23,21 @@ class User < ApplicationRecord
   scope :excluding_user, ->(user) { where.not(id: user) }
   scope :ordered_by_name, -> { order(:name) }
 
-  # Expenses where this user paid or has a share (for "my expenses" list)
+  def all_friends
+    friends.where(friendships: { status: "accepted" }) +
+    inverse_friends.where(friendships: { status: "accepted" })
+  end
+
+  def friends_with?(user)
+    Friendship.between(self, user).where(status: "accepted").exists?
+  end
+
+  # Expenses where this user paid or has a non-zero share (for "my expenses" list)
   def expenses_involved
-    ids_from_shares = ExpenseItemShare.joins(:expense_item).where(user_id: id).select(:expense_id).distinct
+    ids_from_shares = ExpenseItemShare.joins(:expense_item)
+      .where(user_id: id)
+      .where("expense_item_shares.amount_paise > 0")
+      .select(:expense_id).distinct
     Expense.where(payer_id: id).or(Expense.where(id: ids_from_shares)).distinct.order(created_at: :desc)
   end
 

@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 class ExpensesController < ApplicationController
-  before_action :require_current_user, only: %i[new create]
+  before_action :require_current_user, only: %i[new create show]
 
   def new
-    if User.none?
-      redirect_to sign_up_path, alert: "Create an account first."
+    friends = current_user.all_friends
+    if friends.empty?
+      redirect_to users_path, alert: "Add friends first before sharing expenses."
       return
     end
-    @users = User.ordered_by_name
+    @users = [ current_user ] + friends
     @expense = Expense.new(payer_id: current_user.id, tax_percent: 6.5, tip_percent: 18)
     items_count = params[:items].to_i.clamp(1, 50)
     items_count.times { build_item_with_shares }
@@ -23,13 +24,18 @@ class ExpensesController < ApplicationController
       @expense.build_splits!
       redirect_to dashboard_path, notice: "Expense was successfully added."
     else
-      @users = User.ordered_by_name
+      @users = [ current_user ] + current_user.all_friends
       render :new, status: :unprocessable_entity
     end
   end
 
   def show
     @expense = Expense.find(params[:id])
+
+    # Only allow users to see expenses they're involved in (as payer or have shares)
+    unless @expense.payer_id == current_user.id || @expense.expense_items.joins(:expense_item_shares).where(expense_item_shares: { user_id: current_user.id }).exists?
+      redirect_to dashboard_path, alert: "You can only view expenses you're involved in."
+    end
   end
 
   private

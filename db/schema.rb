@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_09_063530) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_12_054254) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -55,6 +55,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_09_063530) do
     t.index ["payer_id"], name: "index_expenses_on_payer_id"
   end
 
+  create_table "friendships", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "friend_id", null: false
+    t.string "status", default: "accepted", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["friend_id"], name: "index_friendships_on_friend_id"
+    t.index ["user_id", "friend_id"], name: "index_friendships_on_user_id_and_friend_id", unique: true
+    t.index ["user_id"], name: "index_friendships_on_user_id"
+  end
+
   create_table "payments", force: :cascade do |t|
     t.integer "amount_paise", null: false
     t.datetime "created_at", null: false
@@ -82,6 +93,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_09_063530) do
   add_foreign_key "expense_splits", "users", column: "from_user_id"
   add_foreign_key "expense_splits", "users", column: "to_user_id"
   add_foreign_key "expenses", "users", column: "payer_id"
+  add_foreign_key "friendships", "users"
+  add_foreign_key "friendships", "users", column: "friend_id"
   add_foreign_key "payments", "users", column: "from_user_id"
   add_foreign_key "payments", "users", column: "to_user_id"
 end

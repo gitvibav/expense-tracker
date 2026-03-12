@@ -5,7 +5,6 @@
 <p>Add friends and view their expenses.</p>
 
 <%= form_with model: User.new, url: users_path, class: "add-user-form" do |f| %>
-  <%= f.text_field :name, placeholder: "Friend's name", class: "form-input", required: true %>
   <%= f.email_field :email, placeholder: "friend@example.com", class: "form-input", required: true %>
   <%= f.submit "Add friend", class: "btn btn-primary" %>
 <% end %>
@@ -27,6 +26,6 @@
       Total amount in all expenses: <%= number_to_currency(@total_spent_paise / 100.0, unit: "₹", format: "%u%n") %>
     </p>
   <% else %>
-    <p class="empty-state">No users yet. Add a friend above to get started.</p>
+    <p class="empty-state">No friends yet. Add friends using their email address above.</p>
   <% end %>
 </div>
