@@ -35,32 +35,15 @@ production:
   primary:
     <<: *default
     url: <%= ENV["DATABASE_URL"] %>
-    database: expense_code_production
-    username: <%= ENV.fetch("DATABASE_USERNAME") { "vibavmahendran" } %>
-    password: <%= ENV.fetch("DATABASE_PASSWORD") { "" } %>
-    host: <%= ENV.fetch("DATABASE_HOST") { "localhost" } %>
-    port: <%= ENV.fetch("DATABASE_PORT") { 5432 } %>
   cache:
     <<: *default
-    database: expense_code_production_cache
-    username: <%= ENV.fetch("DATABASE_USERNAME") { "vibavmahendran" } %>
-    password: <%= ENV.fetch("DATABASE_PASSWORD") { "" } %>
-    host: <%= ENV.fetch("DATABASE_HOST") { "localhost" } %>
-    port: <%= ENV.fetch("DATABASE_PORT") { 5432 } %>
+    url: <%= ENV["RAILS_CACHE_DATABASE_URL"] || ENV["DATABASE_URL"] %>
     migrations_paths: db/cache_migrate
   queue:
     <<: *default
-    database: expense_code_production_queue
-    username: <%= ENV.fetch("DATABASE_USERNAME") { "vibavmahendran" } %>
-    password: <%= ENV.fetch("DATABASE_PASSWORD") { "" } %>
-    host: <%= ENV.fetch("DATABASE_HOST") { "localhost" } %>
-    port: <%= ENV.fetch("DATABASE_PORT") { 5432 } %>
+    url: <%= ENV["RAILS_QUEUE_DATABASE_URL"] || ENV["DATABASE_URL"] %>
     migrations_paths: db/queue_migrate
   cable:
     <<: *default
-    database: expense_code_production_cable
-    username: <%= ENV.fetch("DATABASE_USERNAME") { "vibavmahendran" } %>
-    password: <%= ENV.fetch("DATABASE_PASSWORD") { "" } %>
-    host: <%= ENV.fetch("DATABASE_HOST") { "localhost" } %>
-    port: <%= ENV.fetch("DATABASE_PORT") { 5432 } %>
+    url: <%= ENV["RAILS_CABLE_DATABASE_URL"] || ENV["DATABASE_URL"] %>
     migrations_paths: db/cable_migrate
